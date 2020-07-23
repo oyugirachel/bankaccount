@@ -26,36 +26,55 @@ class BankAccount:
     name= "{} account for {} {} {}".format(self.bank, self.first_name,self.second_name, self.phone_number)
     return name
   def deposit(self,amount):
+    try:
+      amount + 1
+    except TypeError:
+      print("You must enter the amount in figures")
+      return
     if amount >0:
       
       self.balance+=amount
       timeDate=self._getCurrentTime()
       transaction_details={"amount":amount,"date":timeDate}
       self.deposits.append(transaction_details)
-      print("You have deposited {} to your account at {}".format(amount,timeDate))
+      print(" Dear {} ,You have deposited {} to your account at {} and your  new balance is {}" .format(self.first_name,amount,timeDate,self.balance))
     else:
       print("Too low ")
   
   
   def withdraw(self, amount):
+    try:
+      amount + 1
+    except TypeError:
+      print("You must enter the amount in figures")
+      return
     if amount > 0:
       self.balance -= amount
       timeDate=self._getCurrentTime()
       transaction_details={"amount":amount,"date":timeDate}
       self.withdraws.append(transaction_details)
-      print("You have withdrawed {} to your account at {}".format(amount,timeDate))
+      print(" Dear {} ,You have withdrawed {} to your account at {} and your new balance is {}" .format(self.first_name,amount,timeDate,self.balance))
       #print("You have withdrawed {} from your account".format(amount))
     else:
       print("Amount too low")
   def get_balance(self):
     return "The balance of {} is {} ".format(self.account_name(),self.balance)
-  def get_statement(self):
+  def get_deposit_statement(self):
     for statement in self.deposits:
       print("On",statement['date'],", you deposited KES",statement['amount'])
+  def get_withdraw_statement(self):
+    for statement in self.withdraws:
+      print("On",statement['date'],", you withdrew  KES",statement['amount'])
+
 
   def getLoanBalance(self):
     print("Your balance is KES ", self.loan_balance,"for loan KES", self.loan["amount_borrowed"],"borrowed on",self.loan["date"])      
   def requestLoan(self,amount):
+    try:
+      amount + 1
+    except TypeError:
+      print("You must enter the amount in figures")
+      return
     if not self.loan_balance>0:
       timeDate=self._getCurrentTime()
       self.loan["date"]=timeDate
@@ -66,6 +85,11 @@ class BankAccount:
       print(self.getLoanBalance())
 
   def payLoan(self,amount):
+    try:
+      amount + 1
+    except TypeError:
+      print("You must enter the amount in figures")
+      return
     if self.loan_balance==0:
       print('you have no loan balance')
     elif amount>self.loan_balance:
@@ -86,7 +110,8 @@ acc1.withdraw(20)
 acc2.withdraw(10)
 print(acc1.get_balance())
 print(acc2.get_balance())
-acc2.get_statement()
+acc2.get_deposit_statement()
+acc2.get_withdraw_statement()
 acc1.requestLoan(2000)
 acc1.requestLoan(1000)
 acc1.payLoan(200)
