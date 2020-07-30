@@ -8,6 +8,9 @@ class BankAccount:
   loan_interest_rate=.12
   deposits=[]
   withdraws=[]
+  repayments=[]
+  
+  
 
   
   def __init__(self, first_name, second_name,phone_number):
@@ -96,7 +99,17 @@ class BankAccount:
       self.loan_balance=0
     elif amount<=self.loan_balance:
       self.loan_balance-=amount
-    return       
+      timeDate=self._getCurrentTime()
+      transaction_details={"amount":amount,"date":timeDate}
+      self.repayments.append(transaction_details)
+    return 
+
+
+  def get_loan_statements(self):
+    for statement in self.repayments:
+      print("On",statement['date'],", you paid  KES",statement['amount'])
+
+
 acc1=BankAccount("Rachel","Oyugi",25497578566)
 acc2=BankAccount("Buyole", "Isacko",254756784789)
 
@@ -116,6 +129,7 @@ acc1.requestLoan(2000)
 acc1.requestLoan(1000)
 acc1.payLoan(200)
 acc1.getLoanBalance()
+acc1.get_loan_statements()
 
 
 print(acc1.account_name())
