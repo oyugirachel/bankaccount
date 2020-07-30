@@ -120,6 +120,9 @@ class MobileMoneyAccount(Account):
   def __init__(self,first_name,second_name,phone_number,service_provider):
     self.service_provider=service_provider
     self.airtime=[]
+    self.bills=[]
+    self.money=[]
+    self.received=[]
     super().__init__(first_name,second_name,phone_number)
 
 
@@ -137,7 +140,51 @@ class MobileMoneyAccount(Account):
       transaction_details={"amount":amount,"date":timeDate}
       self.airtime.append(transaction_details)
       print("You have bought airtime worth {} on {}".format(amount,timeDate))
-    
+
+
+  def pay_bill(self,amount):
+    try:
+      amount + 1
+    except TypeError:
+      print("You must enter the amount in figures")
+      return
+    if amount>self.balance:
+      print("You dont have enough balance your balance is {}".format(self.balance))
+    else:
+      self.balance-=amount
+      timeDate=self._getCurrentTime()
+      transaction_details={"amount":amount,"date":timeDate}
+      self.bills.append(transaction_details)
+      print("You have paid  {} on {} and your balance is {}".format(amount,timeDate,self.balance))
+  
+  def send_money(self,amount):
+    try:
+      amount + 1
+    except TypeError:
+      print("You must enter the amount in figures")
+      return
+    if amount>self.balance:
+      print("You dont have enough balance your balance is {}".format(self.balance))
+    else:
+      self.balance-=amount
+      timeDate=self._getCurrentTime()
+      transaction_details={"amount":amount,"date":timeDate}
+      self.money.append(transaction_details)
+      print("You have sent  {} on {} and your balance is {}".format(amount,timeDate,self.balance))
+  
+
+  def receive_money(self,amount):
+      timeDate=self._getCurrentTime()
+      transaction_details={"amount":amount,"date":timeDate}
+      self.received.append(transaction_details)
+      print("You have received {} from  on {} and your balance is {}".format(amount,timeDate,self.balance))
+
+  
+
+  
+
+
+
 
 
 
