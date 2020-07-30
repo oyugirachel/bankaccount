@@ -1,6 +1,6 @@
 from datetime import datetime
-class BankAccount:
-  bank="KCB"
+class Account:
+  #bank="KCB"
   loan={}
   loan_balance=0
   applied_for_loan=False
@@ -26,7 +26,7 @@ class BankAccount:
     return now_formatted
 
   def account_name(self):
-    name= "{} account for {} {} {}".format(self.bank, self.first_name,self.second_name, self.phone_number)
+    name= "account for {} {} {}".format(self.first_name,self.second_name, self.phone_number)
     return name
   def deposit(self,amount):
     try:
@@ -110,8 +110,39 @@ class BankAccount:
       print("On",statement['date'],", you paid  KES",statement['amount'])
 
 
-acc1=BankAccount("Rachel","Oyugi",25497578566)
-acc2=BankAccount("Buyole", "Isacko",254756784789)
+class BankAccount(Account):
+  def __init__(self,first_name,second_name,phone_number,bank):
+    self.bank=bank
+    super().__init__(first_name,second_name,phone_number)
+
+
+class MobileMoneyAccount(Account):
+  def __init__(self,first_name,second_name,phone_number,service_provider):
+    self.service_provider=service_provider
+    self.airtime=[]
+    super().__init__(first_name,second_name,phone_number)
+
+
+  def buy_airtime(self,amount):
+    try:
+      amount + 1
+    except TypeError:
+      print("You must enter the amount in figures")
+      return
+    if amount>self.balance:
+      print("You dont have enough balance your balance is {}".format(self.balance))
+    else:
+      self.balance-=amount
+      timeDate=self._getCurrentTime()
+      transaction_details={"amount":amount,"date":timeDate}
+      self.airtime.append(transaction_details)
+      print("You have bought airtime worth {} on {}".format(amount,timeDate))
+    
+
+
+
+acc1=Account("Rachel","Oyugi",25497578566)
+acc2=Account("Buyole", "Isacko",254756784789)
 
 acc1.deposit(-1000)
 acc2.deposit(5000)
@@ -132,5 +163,4 @@ acc1.getLoanBalance()
 acc1.get_loan_statements()
 
 
-print(acc1.account_name())
-print(acc2.account_name())
+
